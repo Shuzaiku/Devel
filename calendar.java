@@ -1,4 +1,4 @@
-//Group Members
+// Group Members
 // 1. [Ritvik Uppal]
 // 2. [Emilio Osorio]
 
@@ -115,15 +115,30 @@ class Main {
     
   	// Get month
     String monthChoice;
-    byte monthIndex;
+    byte monthIndex = 0;
     while (true) {
       monthChoice = input.getStr("What is the month?\n").toLowerCase();
-      boolean monthFound = false;
 
-      for (monthIndex = 0; monthIndex < months.length; monthIndex++) {
-        if (monthChoice.equals(months[monthIndex])) {
-          monthFound = true;
-          break;
+      // Attempt to get month by index
+      boolean canIndex = false;
+      try {
+        monthIndex = Byte.parseByte(monthChoice);
+        if (monthIndex > 0 && monthIndex <= 12) {
+          canIndex = true;
+          monthIndex--;
+        }
+      } catch (Exception e) {}
+
+      boolean monthFound = false;
+      if (canIndex) {
+        monthFound = true;
+        monthChoice = months[monthIndex];
+      } else { // Get month by string name
+        for (monthIndex = 0; monthIndex < months.length; monthIndex++) {
+          if (monthChoice.equals(months[monthIndex])) {
+            monthFound = true;
+            break;
+          }
         }
       }
 
@@ -149,13 +164,29 @@ class Main {
     }
 
     // Calendar formula
-    long century = year / 100;
-    System.out.println("Cent: " + century);
-    byte firstIndex = (byte) ((
-      1 + (short) (2.6 * (monthIndex + 1) - 0.2)
-      - 2 * century + year + year / 4 + century / 4
-    ) % 7);
-    System.out.println("Index: " + firstIndex);
+    long firstDigits = year / 100;
+    long lastDigits = year % 100;
+    long fitTimes = lastDigits / 12;
+    byte fitRemainder = (byte) (lastDigits % 12);
+    byte remainderDiv = (byte) (fitRemainder / 4);
+
+    byte anchor;
+    if (firstDigits % 2 == 0) { // Even year
+      if (firstDigits % 4 == 0) {
+        anchor = 2;
+      } else {
+        anchor = 5;
+      }
+    } else { // Odd year
+      if (firstDigits % 4 == 1) {
+        anchor = 0;
+      } else {
+        anchor = 3;
+      }
+    }
+
+    long add = fitTimes + fitRemainder + remainderDiv + anchor;
+    byte doomsday = (byte) (add % 7);
 
     // Days in months
     byte febLen = 28;
@@ -169,11 +200,12 @@ class Main {
       30, 31, 30, 31
     };
 
+    short daysPassed = 0;
     byte monthDays = 0;
     for (byte i = 0; i < monthIndex; i++) {
       byte currVal = monthLens[i];
+      daysPassed += currVal;
       if (i+1 == monthIndex) {
-        System.out.println(true + "burhh");
         monthDays = currVal;
       }
     }
@@ -181,8 +213,9 @@ class Main {
     if (monthDays == 0) {
       monthDays = 31;
     }
+    // firstIndex = (byte) ((firstIndex + daysPassed) % 7); work on this later
     
     // Calendar
-    printCalendar(monthDays, firstIndex);
+    // printCalendar(monthDays, firstIndex);
   }
 }
