@@ -1,221 +1,148 @@
-// Group Members
-// 1. [Ritvik Uppal]
-// 2. [Emilio Osorio]
-
-// Description: This program will show a calendar
+// Calendar class
+// Emilio Osorio
+// 2022-04-10
+// This class will give many calendar functionalities, including Conway's doomsday algorithm
+// Doomsday methods will only work properly using the Gregorian calendar
 
 // # Imports
 import java.lang.Math;
 
-// # Main class
-class Main {
-  private static Input input = new Input();
-  public static void main(String[] args) {
-    // level3();
-		level4();
-  }
-
-  // # Calendar printing function for both levels
-  private static void printCalendar(byte monthDays, byte firstIndex) {
-    byte rows = (byte) Math.ceil((monthDays + firstIndex) / 7.0);
-    String[] shortWords = {
-      "Sun", "Mon", "Tues",
-      "Wed", "Thurs", "Fri",
-      "Sat"
-    };
-    System.out.println();
-
-    // Print day names
-    for (byte i = 0; i < shortWords.length; i++) {
-      System.out.print(shortWords[i] + "\t");
-    };
-    System.out.println();
-
-    // Print day numbers
-    byte currDay = 1;
-    for (byte i = 0; i < rows; i++) {
-      for (byte j = 0; j < 7; j++) {
-        Object message = currDay;
-        if (firstIndex > j && i == 0) {
-          message = "";
-        } else if (currDay > monthDays) {
-          break;
-        } else {
-          currDay++;
-        }
-        System.out.print(message + "\t");
-      }
-      
-      if (i < rows-1) {
-        System.out.println();
-      }
-    }
-  }
-
-  // # Level 3
-  private static void level3() {
-    // Declare weekdays
-    String[] weekDays = {
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday"
-    };
-    
-    // Get days of month
-    input.byteError = "Invalid entry, must be values 28 thru 31. Try again...";
-    byte monthDays;
-    
-  	while (true) {
-      monthDays = input.getByte("How many days in a month?\n");
-      if (monthDays >= 28 && monthDays <= 31) {
-         break;
-      } else {
-        System.out.println(input.byteError);
-      }
+// # Class
+public class Calendar {
+    // # Init
+    public long year;
+    Calendar(long year) {
+        this.year = year;
     }
 
-    // Get start of month
-    String firstDay;
-    byte firstIndex;
-    while (true) {
-      firstDay = input.getStr("On which day does the month start?\n").toLowerCase();
-      boolean dayFound = false;
+    // # Doomsday algorithm
+    public byte getWeekdayIndex(byte monthIndex) {
+        byte febLen = getFebLen();
+        byte janDay = (byte) (3 + (febLen - 28));
+        byte[] doomsdaysSet = {janDay, febLen, 7, 4, 9, 6, 11, 8, 5, 10, 7, 12};
 
-      for (firstIndex = 0; firstIndex < weekDays.length; firstIndex++) {
-        if (firstDay.equals(weekDays[firstIndex])) {
-          dayFound = true;
-          break;
+        // Get the weekday
+        byte weekdayIndex = getCenturyDoomsday();
+
+        for (byte i = doomsdaysSet[monthIndex]; i > 1; i--) {
+            weekdayIndex--;
+            if (weekdayIndex == -1) {
+                weekdayIndex = 6;
+            }
         }
-      }
-
-      if (dayFound) {
-        break;
-      } else {
-        System.out.println("Invalid day of the week, Must be Sunday thru Saturday. Try again...");
-      }
+        return weekdayIndex;
     }
 
-    // Calendar
-    printCalendar(monthDays, firstIndex);
-  }
+    private byte getCenturyDoomsday() {
+        long year = this.year;
+        long firstDigits = year / 100;
+        long lastDigits = year % 100;
+        long fitTimes = lastDigits / 12;
+        byte fitRemainder = (byte) (lastDigits % 12);
+        byte remainderDiv = (byte) (fitRemainder / 4);
 
-  // # Level 4
-  private static void level4() {
-    // Declare months
-    String[] months = {
-      "january", "february", "march",
-      "april", "may", "june", "july",
-      "august", "september", "october",
-      "november", "december"
-    };
-    
-  	// Get month
-    String monthChoice;
-    byte monthIndex = 0;
-    while (true) {
-      monthChoice = input.getStr("What is the month?\n").toLowerCase();
-
-      // Attempt to get month by index
-      boolean canIndex = false;
-      try {
-        monthIndex = Byte.parseByte(monthChoice);
-        if (monthIndex > 0 && monthIndex <= 12) {
-          canIndex = true;
-          monthIndex--;
+        byte anchor;
+        if (firstDigits % 2 == 0) { // Even year
+            if (firstDigits % 4 == 0) {
+                anchor = 2;
+            } else {
+                anchor = 5;
+            }
+        } else { // Odd year
+            if (firstDigits % 4 == 1) {
+                anchor = 0;
+            } else {
+                anchor = 3;
+            }
         }
-      } catch (Exception e) {}
 
-      boolean monthFound = false;
-      if (canIndex) {
-        monthFound = true;
-        monthChoice = months[monthIndex];
-      } else { // Get month by string name
+        long add = fitTimes + fitRemainder + remainderDiv + anchor;
+        byte doomsday = (byte) (add % 7);
+        return doomsday;
+    }
+
+    // # Basic calendar
+    private static String[] months = {
+        "january", "february", "march",
+        "april", "may", "june", "july",
+        "august", "september", "october",
+        "november", "december"
+      };
+
+    public String getMonth(byte index) {
+        return months[index];
+    }
+
+    public byte getMonthIndex(String monthName) { // Will return -1 if not found
+        byte monthIndex;
+        boolean monthFound = false;
         for (monthIndex = 0; monthIndex < months.length; monthIndex++) {
-          if (monthChoice.equals(months[monthIndex])) {
-            monthFound = true;
-            break;
-          }
+            if (monthName.equals(months[monthIndex])) {
+                monthFound = true;
+                break;
+            }
         }
-      }
 
-      if (monthFound) {
-        break;
-      } else {
-        System.out.println("Invalid entry. Must be a month of the year.");
-      }
-    }
-    System.out.println();
-
-    // Get year
-    long year;
-    input.longError = "Invalid year. Must be a positive integer. Try again...";
-    while (true) {
-      year = input.getLong("What is the year?\n");
-
-      if (year < 1) {
-        System.out.println(input.longError);
-      } else {
-        break;
-      }
+        if (!monthFound) {
+            return -1;
+        } else {
+            return monthIndex;
+        }
     }
 
-    // Calendar formula
-    long firstDigits = year / 100;
-    long lastDigits = year % 100;
-    long fitTimes = lastDigits / 12;
-    byte fitRemainder = (byte) (lastDigits % 12);
-    byte remainderDiv = (byte) (fitRemainder / 4);
+    public void printCalendar(byte monthDays, byte firstIndex) {
+        byte rows = (byte) Math.ceil((monthDays + firstIndex) / 7.0);
+        String[] shortWords = {
+                "Sun", "Mon", "Tues",
+                "Wed", "Thurs", "Fri",
+                "Sat"
+        };
+        System.out.println();
 
-    byte anchor;
-    if (firstDigits % 2 == 0) { // Even year
-      if (firstDigits % 4 == 0) {
-        anchor = 2;
-      } else {
-        anchor = 5;
-      }
-    } else { // Odd year
-      if (firstDigits % 4 == 1) {
-        anchor = 0;
-      } else {
-        anchor = 3;
-      }
+        // Print day names
+        for (byte i = 0; i < shortWords.length; i++) {
+            System.out.print(shortWords[i] + "\t");
+        }
+        ;
+        System.out.println();
+
+        // Print day numbers
+        byte currDay = 1;
+        for (byte i = 0; i < rows; i++) {
+            for (byte j = 0; j < 7; j++) {
+                Object message = currDay;
+                if (firstIndex > j && i == 0) {
+                    message = "";
+                } else if (currDay > monthDays) {
+                    break;
+                } else {
+                    currDay++;
+                }
+                System.out.print(message + "\t");
+            }
+
+            if (i < rows - 1) {
+                System.out.println();
+            }
+        }
     }
 
-    long add = fitTimes + fitRemainder + remainderDiv + anchor;
-    byte doomsday = (byte) (add % 7);
-
-    // Days in months
-    byte febLen = 28;
-    if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-      febLen++;
-    }
-    
-    byte[] monthLens = {
-      31, febLen, 31, 30,
-      31, 30, 31, 31,
-      30, 31, 30, 31
-    };
-
-    short daysPassed = 0;
-    byte monthDays = 0;
-    for (byte i = 0; i < monthIndex; i++) {
-      byte currVal = monthLens[i];
-      daysPassed += currVal;
-      if (i+1 == monthIndex) {
-        monthDays = currVal;
-      }
+    public byte[] getDaysLen() {
+        byte febLen = getFebLen();
+        byte[] daysLen = {
+            31, febLen, 31, 30,
+            31, 30, 31, 31,
+            30, 31, 30, 31
+        };
+        return daysLen;
     }
 
-    if (monthDays == 0) {
-      monthDays = 31;
+    private byte getFebLen() {
+        long year = this.year;
+        byte febLen = 28;
+        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+            febLen++;
+        }
+        return febLen;
     }
-    // firstIndex = (byte) ((firstIndex + daysPassed) % 7); work on this later
-    
-    // Calendar
-    // printCalendar(monthDays, firstIndex);
-  }
 }
