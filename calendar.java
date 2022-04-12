@@ -11,6 +11,7 @@ import java.lang.Math;
 public class Calendar {
     // # Init
     public long year;
+
     Calendar(long year) {
         this.year = year;
     }
@@ -19,7 +20,7 @@ public class Calendar {
     public byte getWeekdayIndex(byte monthIndex) {
         byte febLen = getFebLen();
         byte janDay = (byte) (3 + (febLen - 28));
-        byte[] doomsdaysSet = {janDay, febLen, 7, 4, 9, 6, 11, 8, 5, 10, 7, 12};
+        byte[] doomsdaysSet = { janDay, febLen, 7, 4, 9, 6, 11, 8, 5, 10, 7, 12 };
 
         // Get the weekday
         byte weekdayIndex = getCenturyDoomsday();
@@ -63,11 +64,11 @@ public class Calendar {
 
     // # Basic calendar
     private static String[] months = {
-        "january", "february", "march",
-        "april", "may", "june", "july",
-        "august", "september", "october",
-        "november", "december"
-      };
+            "january", "february", "march",
+            "april", "may", "june", "july",
+            "august", "september", "october",
+            "november", "december"
+    };
 
     public String getMonth(byte index) {
         return months[index];
@@ -130,9 +131,9 @@ public class Calendar {
     public byte[] getDaysLen() {
         byte febLen = getFebLen();
         byte[] daysLen = {
-            31, febLen, 31, 30,
-            31, 30, 31, 31,
-            30, 31, 30, 31
+                31, febLen, 31, 30,
+                31, 30, 31, 31,
+                30, 31, 30, 31
         };
         return daysLen;
     }
