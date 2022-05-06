@@ -8,13 +8,13 @@ import java.io.InputStreamReader;
 // Base class
 class Input {
   private static BufferedReader inputGetter = new BufferedReader(new InputStreamReader(System.in));
-  public String charError = "Input was empty.";
-  public String byteError = "Input must be a byte.";
-  public String shortError = "Input must be a short.";
-  public String intError = "Input must be an integer.";
-  public String longError = "Input must be a long.";
-  public String floatError = "Input must be a float.";
-  public String doubleError = "Input must be a double.";
+  public String charExceptionMsg = "Input was empty.";
+  public String byteExceptionMsg = "Input must be a byte.";
+  public String shortExceptionMsg = "Input must be a short.";
+  public String intExceptionMsg = "Input must be an integer.";
+  public String longExceptionMsg = "Input must be a long.";
+  public String floatExceptionMsg = "Input must be a float.";
+  public String doubleExceptionMsg = "Input must be a double.";
 
   // Main input receiver
   private static String getUnfilteredInput() {
@@ -35,13 +35,12 @@ class Input {
 
   // Get character input
   public char getChar(String... prompt) {
-    printPrompt(prompt);
-
     while (true) {
       try {
+        printPrompt(prompt);
         return getUnfilteredInput().charAt(0);
       } catch (Exception e) {
-        System.out.println(this.charError);
+        System.out.println(this.charExceptionMsg);
       }
     }
   }
@@ -54,78 +53,72 @@ class Input {
   
   // Get byte input
   public byte getByte(String... prompt) {
-    printPrompt(prompt);
-    
     while (true) {
       try {
+        printPrompt(prompt);
         return Byte.parseByte(getUnfilteredInput());
       } catch (Exception e) {
-        System.out.println(this.byteError);
+        System.out.println(this.byteExceptionMsg);
       }
     }
   }
 
   // Get short input
   public short getShort(String... prompt) {
-    printPrompt(prompt);
-    
     while (true) {
       try {
+        printPrompt(prompt);
         return Short.parseShort(getUnfilteredInput());
       } catch (Exception e) {
-        System.out.println(this.shortError);
+        System.out.println(this.shortExceptionMsg);
       }
     }
   }
 
   // Get integer input
   public int getInt(String... prompt) {
-    printPrompt(prompt);
-    
     while (true) {
       try {
+        printPrompt(prompt);
         return Integer.parseInt(getUnfilteredInput());
       } catch (Exception e) {
-        System.out.println(this.intError);
+        System.out.println(this.intExceptionMsg);
       }
     }
   }
 
   // Get long input
   public long getLong(String... prompt) {
-    printPrompt(prompt);
-    
     while (true) {
       try {
+        printPrompt(prompt);    
         return Long.parseLong(getUnfilteredInput());
       } catch (Exception e) {
-        System.out.println(this.longError);
+        System.out.println(this.longExceptionMsg);
       }
     }
   }
 
   // Get float input
   public float getFloat(String... prompt) {
-    printPrompt(prompt);
-
     while (true) {
       try {
+        printPrompt(prompt);    
         return Float.parseFloat(getUnfilteredInput());
       } catch (Exception e) {
-        System.out.println(this.floatError);
+        System.out.println(this.floatExceptionMsg);
       }
     }
   }
 
   // Get double input
   public double getDouble(String... prompt) {
-    printPrompt(prompt);
-
     while (true) {
       try {
+        printPrompt(prompt);    
         return Double.parseDouble(getUnfilteredInput());
       } catch (Exception e) {
-        System.out.println(this.doubleError);
+        System.out.println(this.doubleExceptionMsg);
       }
     }
   }
