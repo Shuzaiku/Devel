@@ -1,17 +1,3 @@
-// # This will make it ignore arduino functions
-void delay(int number) {}
-void pinMode(int number, int inputType) {}
-int digitalRead(int number) {}
-void digitalWrite(int pin, int lowOrHigh) {}
-
-int OUTPUT = 0;
-int INPUT = 0;
-int HIGH = 1;
-int LOW = 0;
-//-------------------------------------------------------
-//-------------------------------------------------------
-//-------------------------------------------------------
-
 // # Startup
 int forwardLeftMotor = 13;
 int backwardLeftMotor = 12;
