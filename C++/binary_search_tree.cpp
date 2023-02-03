@@ -5,10 +5,14 @@ struct BinarySearchTreeNode {
     int data;
     BinarySearchTreeNode *left = NULL, *right = NULL;
 
-    BinarySearchTreeNode() {}
     BinarySearchTreeNode(int data) {
         this ->data = data;
     }
+    ~BinarySearchTreeNode() {
+        delete left;
+        delete right;
+    }
+
 
     void addChild(int child_data);
 
