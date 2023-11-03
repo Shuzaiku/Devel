@@ -5,7 +5,7 @@ run-name: ${{ github.repository }} is working with actions.
 on:
     push:
         paths:
-            - 'Devel/Python/GithubActionsDemo/**'
+            - 'Python/GithubActionsDemo/**'
 
 jobs:
     hello-world:
