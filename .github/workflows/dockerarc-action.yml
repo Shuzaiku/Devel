@@ -1,0 +1,21 @@
+name: dockerarc-action
+
+run-name: DockerArc is in action
+
+env:
+    API_KEY: ${{ secrets.DOCKERTEST_API_KEY }}
+
+on:
+    push:
+        paths:
+            - Python/DockerArc/**
+
+jobs:
+    run-app:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+            - run: cd Python/DockerArc
+            - run: docker build -t arcgis-image .
+            - run: docker run 59000:9000 -t arcgis-image

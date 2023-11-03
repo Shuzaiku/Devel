@@ -5,10 +5,10 @@ run-name: ${{ github.repository }} is working with actions.
 env: 
     SECRET: 'do it work??'
 
-on: [push]
-    # push:
-    #     paths:
-    #         - 'Python/GithubActionsDemo/**'
+on:
+    push:
+        paths:
+            - 'Python/GithubActionsDemo/**'
 
 jobs:
     hello-world:
