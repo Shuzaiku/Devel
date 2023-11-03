@@ -2,10 +2,13 @@ name: pypush_demo
 
 run-name: ${{ github.repository }} is working with actions.
 
-on:
-    push:
-        paths:
-            - 'Python/GithubActionsDemo/**'
+env: 
+    SECRET: 'do it work??'
+
+on: [push]
+    # push:
+    #     paths:
+    #         - 'Python/GithubActionsDemo/**'
 
 jobs:
     hello-world:
@@ -13,4 +16,5 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-            - run: echo "Hello world"
+            # - run: echo "Hello world"
+            - run: python Python/GithubActionsDemo/demo.py
