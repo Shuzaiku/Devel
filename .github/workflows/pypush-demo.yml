@@ -1,0 +1,15 @@
+name: pypush_demo
+
+run-name: ${{ github.repository }} is working with actions.
+
+on:
+    push:
+        paths:
+            - 'Devel/Python/GithubActionsDemo/**'
+
+jobs:
+    hello-world:
+        runs-on: ubuntu-latest
+
+        steps:
+            - run: echo "Hello world!"
