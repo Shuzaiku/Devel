@@ -18,4 +18,4 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - run: docker build -t arcgis-image Python/DockerArc
-            - run: docker run 59000:9000 -t arcgis-image
+            - run: docker run arcgis-image

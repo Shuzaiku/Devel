@@ -11,6 +11,6 @@ RUN conda update -c defaults conda -y && \
 
 COPY . .
 
-EXPOSE 9000
+# EXPOSE 9000
 
 CMD [ "python", "gcd.py" ]
