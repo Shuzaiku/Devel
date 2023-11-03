@@ -8,7 +8,8 @@ env:
 on:
     push:
         paths:
-            - Python/DockerArc/**
+            # - Python/DockerArc/**
+            - .github/workflows/dockerarc-action.yml
 
 jobs:
     run-app:
@@ -17,5 +18,6 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - run: cd Python/DockerArc
+            - run: pwd
             - run: docker build -t arcgis-image .
             - run: docker run 59000:9000 -t arcgis-image
