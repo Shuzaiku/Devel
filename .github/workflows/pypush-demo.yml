@@ -16,5 +16,5 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
-            # - run: echo "Hello world"
+            - run: pip install python-dotenv
             - run: python Python/GithubActionsDemo/demo.py
