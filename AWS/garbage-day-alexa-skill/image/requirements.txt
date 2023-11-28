@@ -1,0 +1,4 @@
+boto3==1.9.216
+ask-sdk-core==1.11.0
+shapely==2.0.2
+arcgis==2.1.0.3
