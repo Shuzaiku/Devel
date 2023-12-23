@@ -7,6 +7,6 @@ RUN yum install -y gcc
 RUN pip install gssapi
 RUN pip install -r requirements.txt
 
-COPY src/* ${LAMBDA_TASK_ROOT}
+COPY src/main.py ${LAMBDA_TASK_ROOT}
 
 CMD [ "main.handler" ]
