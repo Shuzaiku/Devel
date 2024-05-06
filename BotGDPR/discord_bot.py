@@ -44,5 +44,4 @@ def run():
     client.run(bot_config.DISCORD_BOT_TOKEN)
 
 if __name__ == "__main__":
-    print("DISCORD TOKEN:", bot_config.DISCORD_BOT_TOKEN)
     run()

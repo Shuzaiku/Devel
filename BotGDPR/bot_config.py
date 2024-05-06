@@ -2,11 +2,8 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv("DISCORD_BOT_TOKEN")
-load_dotenv("GUILDED_BOT_TOKEN")
-load_dotenv("OPEN_CLOUD_API_KEY")
-load_dotenv("ROBLOX_WEBHOOK_SECRET")
-print("ENVIRON:", os.environ)
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(BASEDIR, '.env'))
 
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 GUILDED_BOT_TOKEN = os.getenv("GUILDED_BOT_TOKEN")
