@@ -6,6 +6,7 @@ load_dotenv("DISCORD_BOT_TOKEN")
 load_dotenv("GUILDED_BOT_TOKEN")
 load_dotenv("OPEN_CLOUD_API_KEY")
 load_dotenv("ROBLOX_WEBHOOK_SECRET")
+print("ENVIRON:", os.environ)
 
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 GUILDED_BOT_TOKEN = os.getenv("GUILDED_BOT_TOKEN")
